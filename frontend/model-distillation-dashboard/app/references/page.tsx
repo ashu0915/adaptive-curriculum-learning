@@ -281,7 +281,7 @@ export default function ReferencesPage() {
             {/* <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
               → Full Documentation
             </a> */}
-            <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <a href="https://github.com/ashu0915/adaptive-curriculum-learning" className="text-blue-600 dark:text-blue-400 hover:underline">
               → GitHub Repository
             </a>
             {/* <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
