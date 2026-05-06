@@ -62,6 +62,11 @@ def run_training(args):
     items = DatasetLoader.load_jsonl(args.data)
     print(f"Loaded {len(items)} items.")
 
+    # Ensure all items have unique 'id' fields
+    for i, it in enumerate(items):
+        if 'id' not in it:
+            it['id'] = str(i)
+
     # -------------------------------------------------
     # 1) INITIAL DIFFICULTY (if missing)
     # -------------------------------------------------
@@ -72,7 +77,7 @@ def run_training(args):
             items,
             model_name=teacher.model_name,
             task=teacher.task,
-            batch_size=16,
+            batch_size=8,
             device=teacher.device
         )
         print("Initial difficulty computed.")

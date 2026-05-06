@@ -48,6 +48,11 @@ def per_example_kl(teacher_logits: torch.Tensor,
     min_len = min(teacher_logits.shape[1], student_logits.shape[1])
     teacher_logits = teacher_logits[:, :min_len, :]
     student_logits = student_logits[:, :min_len, :]
+    
+    # Truncate attention mask to match sequence length
+    if attention_mask is not None:
+        attention_mask = attention_mask[:, :min_len]
+    
     T = float(temperature)
     if teacher_logits.dim() == 2 and student_logits.dim() == 2:
         # classification

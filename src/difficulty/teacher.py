@@ -45,13 +45,18 @@ class TeacherModel:
         enc = self.tokenizer(texts, return_tensors="pt", padding=True, truncation=True, **tokenize_kwargs)
         enc = {k: v.to(self.device) for k, v in enc.items()}
         with torch.no_grad():
-            if self.task == "classification":
+            # Use mixed precision for faster inference on GPU
+            if self.device.startswith("cuda"):
+                with torch.autocast(device_type="cuda", dtype=torch.float16):
+                    out = self.model(**enc)
+            else:
                 out = self.model(**enc)
+            
+            if self.task == "classification":
                 logits = out.logits  # (B, num_labels)
                 return logits, enc
             else:
-                out = self.model(**enc, labels=enc["input_ids"])
-                # For causal LM huggingface returns loss and logits
+                # For causal LM huggingface returns logits
                 logits = out.logits  # (B, seq_len, vocab_size)
                 return logits, enc
 

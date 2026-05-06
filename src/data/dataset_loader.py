@@ -23,11 +23,15 @@ class DatasetLoader:
         items = []
 
         with open(path, "r", encoding="utf-8") as f:
-            for line in f:
+            for idx, line in enumerate(f):
                 obj = json.loads(line)
 
                 if "text" not in obj:
                     raise ValueError("Dataset item missing 'text' field")
+
+                # Ensure item has an 'id' field; generate one if missing
+                if "id" not in obj:
+                    obj["id"] = str(idx)
 
                 items.append(obj)
 

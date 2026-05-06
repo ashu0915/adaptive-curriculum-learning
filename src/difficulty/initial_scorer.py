@@ -11,7 +11,7 @@ def compute_initial_scores(
     items: List[Dict],
     model_name: str = "distilgpt2",
     task: str = "causal_lm",
-    batch_size: int = 8,
+    batch_size: int = 32,
     device: Optional[str] = None,
     label_key: str = "label",
     out_jsonl: Optional[str] = None,
@@ -63,6 +63,10 @@ def compute_initial_scores(
             it["initial_difficulty"] = score
             it["difficulty_score"] = score
             updated.append(it)
+        
+        # Clear GPU cache to prevent memory fragmentation
+        if device.startswith("cuda"):
+            torch.cuda.empty_cache()
 
     # optionally write to jsonl
     if out_jsonl is not None:
