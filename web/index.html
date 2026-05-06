@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>ACL Training UI</title>
+</head>
+
+<body>
+
+<h2>Adaptive Curriculum Learning Trainer</h2>
+
+Dataset CSV:
+<input id="dataset" value="amazon_small.csv">
+
+<br><br>
+
+Steps:
+<input id="steps" value="1000">
+
+<br><br>
+
+Batch size:
+<input id="batch" value="16">
+
+<br><br>
+
+<button onclick="start()">Start Training</button>
+
+<p id="status"></p>
+
+<script>
+
+let job = null
+
+async function start(){
+
+    const dataset = document.getElementById("dataset").value
+    const steps = document.getElementById("steps").value
+    const batch = document.getElementById("batch").value
+
+    const res = await fetch("http://localhost:8000/run",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            dataset:dataset,
+            steps:steps,
+            batch_size:batch
+        })
+    })
+
+    const data = await res.json()
+    job = data.job_id
+
+    monitor()
+}
+
+async function monitor(){
+
+    if(!job) return
+
+    const res = await fetch(`http://localhost:8000/status/${job}`)
+    const data = await res.json()
+
+    document.getElementById("status").innerText = data.status
+
+    if(data.status == "running"){
+        setTimeout(monitor,2000)
+    }
+}
+
+</script>
+
+</body>
+</html>

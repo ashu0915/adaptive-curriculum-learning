@@ -1,0 +1,1 @@
+# Adaptive Curriculum LLM - GPU Docker package\n\nBuild and run inside Docker (GPU).
