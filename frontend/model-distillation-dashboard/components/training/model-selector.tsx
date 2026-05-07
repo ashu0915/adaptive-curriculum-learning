@@ -76,7 +76,7 @@ export function ModelSelector({
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+          {/* <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
             <div className="flex items-center justify-between">
               <Label className="text-sm">Teacher Distillation</Label>
               <span className="inline-flex h-6 w-10 items-center rounded-full bg-green-500">
@@ -89,7 +89,7 @@ export function ModelSelector({
                 {DEFAULT_TRAINING_CONFIG.lambda_kld}
               </p>
             </div>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
     </div>
